@@ -343,14 +343,27 @@ nav a:hover {
 }
 
 
-#answer-text {
-    font-size: 82px;
+.answer-image-wrap {
+    width: 100%;
 
-    line-height: 1;
+    margin-top: 8px;
+}
 
-    font-weight: 700;
 
-    color: #327c93;
+#answer-image {
+    display: block;
+
+    width: 100%;
+
+    height: auto;
+
+    max-height: 420px;
+
+    object-fit: contain;
+
+    border-radius: 14px;
+
+    background: #f3f8fa;
 }
 
 
@@ -917,8 +930,8 @@ footer {
     }
 
 
-    #answer-text {
-        font-size: 64px;
+    #answer-image {
+        max-height: 320px;
     }
 
 

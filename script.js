@@ -1,24 +1,9 @@
 /*
 ========================================
 VISION FIVE
-QR CARD ANSWER SYSTEM
+QR CARD IMAGE ANSWER SYSTEM
 ========================================
 */
-
-
-/* ========================================
-   카드별 정답
-======================================== */
-
-const answers = {
-
-    "001": "A",
-    "002": "B",
-    "003": "C",
-    "004": "D",
-    "005": "A"
-
-};
 
 
 /* ========================================
@@ -51,20 +36,21 @@ const cardNumberText =
     );
 
 
-const answerText =
+const answerImage =
     document.getElementById(
-        "answer-text"
+        "answer-image"
     );
 
 
 /* ========================================
-   QR 카드 정답 표시
+   QR 카드 정답 이미지 표시
+
+   예:
+   ?card=001 → answers/001.jpg
+   ?card=002 → answers/002.jpg
 ======================================== */
 
-if (
-    cardNumber &&
-    answers[cardNumber]
-) {
+if (cardNumber) {
 
     answerBox.style.display = "block";
 
@@ -73,27 +59,38 @@ if (
         "CARD " + cardNumber;
 
 
-    answerText.textContent =
-        answers[cardNumber];
-
-}
-
-
-/* ========================================
-   존재하지 않는 카드 번호
-======================================== */
-
-else if (cardNumber) {
-
-    answerBox.style.display = "block";
+    answerImage.src =
+        "answers/" +
+        cardNumber +
+        ".jpg";
 
 
-    cardNumberText.textContent =
-        "CARD " + cardNumber;
+    /* 이미지가 없는 카드 번호일 때 */
+
+    answerImage.addEventListener(
+        "error",
+        function () {
+
+            answerImage.style.display =
+                "none";
 
 
-    answerText.textContent =
-        "?";
+            const message =
+                answerBox.querySelector(
+                    ".answer-message"
+                );
+
+
+            if (message) {
+
+                message.textContent =
+                    "등록된 정답 이미지가 없습니다.";
+
+            }
+
+        },
+        { once: true }
+    );
 
 }
 
