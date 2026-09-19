@@ -44,28 +44,19 @@ const answerImage =
 
 /* ========================================
    QR 카드 정답 이미지 표시
-
-   예:
-   ?card=001 → answers/001.jpg
-   ?card=002 → answers/002.jpg
 ======================================== */
 
 if (cardNumber) {
 
     answerBox.style.display = "block";
 
-
     cardNumberText.textContent =
         "CARD " + cardNumber;
-
 
     answerImage.src =
         "answers/" +
         cardNumber +
         ".jpg";
-
-
-    /* 이미지가 없는 카드 번호일 때 */
 
     answerImage.addEventListener(
         "error",
@@ -74,18 +65,14 @@ if (cardNumber) {
             answerImage.style.display =
                 "none";
 
-
             const message =
                 answerBox.querySelector(
                     ".answer-message"
                 );
 
-
             if (message) {
-
                 message.textContent =
                     "등록된 정답 이미지가 없습니다.";
-
             }
 
         },
@@ -96,7 +83,7 @@ if (cardNumber) {
 
 
 /* ========================================
-   갤러리
+   반응형 갤러리
 ======================================== */
 
 const gallery =
@@ -104,11 +91,6 @@ const gallery =
         ".gallery-grid"
     );
 
-
-/*
-   기존 HTML의 gallery-item들을
-   자동으로 3개의 열에 배치한다.
-*/
 
 if (gallery) {
 
@@ -119,56 +101,83 @@ if (gallery) {
             )
         );
 
-
-    gallery.innerHTML = "";
-
-
-    const columns = [];
+    let currentColumnCount = 0;
 
 
-    for (
-        let i = 0;
-        i < 3;
-        i++
-    ) {
+    function getGalleryColumnCount() {
 
-        const column =
-            document.createElement(
-                "div"
-            );
+        if (window.innerWidth <= 380) {
+            return 1;
+        }
 
+        if (window.innerWidth <= 900) {
+            return 2;
+        }
 
-        column.className =
-            "gallery-column";
-
-
-        columns.push(column);
-
-
-        gallery.appendChild(
-            column
-        );
+        return 3;
 
     }
 
 
-    /*
-       사진을 순서대로
-       1 → 2 → 3 → 1 → 2 → 3
-       형태로 배치
-    */
+    function buildGallery() {
 
-    items.forEach(
-        function (item, index) {
+        const columnCount =
+            getGalleryColumnCount();
 
-            const columnIndex =
-                index % 3;
-
-
-            columns[columnIndex]
-                .appendChild(item);
-
+        if (
+            columnCount ===
+            currentColumnCount
+        ) {
+            return;
         }
+
+        currentColumnCount =
+            columnCount;
+
+        gallery.innerHTML = "";
+
+        const columns = [];
+
+        for (
+            let i = 0;
+            i < columnCount;
+            i++
+        ) {
+
+            const column =
+                document.createElement(
+                    "div"
+                );
+
+            column.className =
+                "gallery-column";
+
+            columns.push(column);
+
+            gallery.appendChild(column);
+        }
+
+
+        items.forEach(
+            function (item, index) {
+
+                const columnIndex =
+                    index %
+                    columnCount;
+
+                columns[columnIndex]
+                    .appendChild(item);
+
+            }
+        );
+
+    }
+
+    buildGallery();
+
+    window.addEventListener(
+        "resize",
+        buildGallery
     );
 
 }
@@ -202,10 +211,6 @@ const modalClose =
     );
 
 
-/* ========================================
-   이미지 클릭
-======================================== */
-
 galleryImages.forEach(
     function (image) {
 
@@ -225,17 +230,12 @@ galleryImages.forEach(
 
                 document.body.style.overflow =
                     "hidden";
-
             }
         );
 
     }
 );
 
-
-/* ========================================
-   모달 닫기
-======================================== */
 
 function closeModal() {
 
@@ -245,27 +245,16 @@ function closeModal() {
 
     document.body.style.overflow =
         "";
-
 }
 
-
-/* ========================================
-   닫기 버튼
-======================================== */
 
 modalClose.addEventListener(
     "click",
     function () {
-
         closeModal();
-
     }
 );
 
-
-/* ========================================
-   배경 클릭
-======================================== */
 
 imageModal.addEventListener(
     "click",
@@ -275,18 +264,12 @@ imageModal.addEventListener(
             event.target ===
             imageModal
         ) {
-
             closeModal();
-
         }
 
     }
 );
 
-
-/* ========================================
-   ESC 키
-======================================== */
 
 document.addEventListener(
     "keydown",
@@ -295,9 +278,7 @@ document.addEventListener(
         if (
             event.key === "Escape"
         ) {
-
             closeModal();
-
         }
 
     }
