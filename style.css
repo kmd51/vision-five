@@ -579,17 +579,6 @@ section {
 
 /* 각 열 */
 
-.gallery-column {
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 20px;
-
-    min-width: 0;
-}
-
-
 /* 사진 */
 
 .gallery-item {
@@ -1028,11 +1017,6 @@ footer {
                 minmax(0, 1fr)
             );
 
-        gap: 12px;
-    }
-
-
-    .gallery-column {
         gap: 12px;
     }
 
